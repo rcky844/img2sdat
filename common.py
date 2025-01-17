@@ -1126,6 +1126,8 @@ class DeviceSpecificParams(object):
         if not os.path.exists(path) and os.path.exists(path + ".py"):
           path = path + ".py"
         spec = importlib.util.spec_from_file_location("device_specific", path)
+        if not spec:
+          raise FileNotFoundError(path)
         print("loaded device-specific extensions from", path)
         module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(module)
